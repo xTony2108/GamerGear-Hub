@@ -6,6 +6,8 @@ const userSlice = emptyApiSlice
     endpoints: (builder) => ({
       getUserData: builder.query({
         query: () => `/users/me`,
+        providesTags: ["User"],
+        keepUnusedDataFor: 5,
       }),
     }),
   });

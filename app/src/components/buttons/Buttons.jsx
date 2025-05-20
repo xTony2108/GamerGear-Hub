@@ -30,7 +30,7 @@ export const Buttons = ({
     ) : orange ? (
       <button
         className={clsx(
-          "relative bg-primary p-4 text-light dark:text-dark font-semibold rounded-full text-sm buttonFillBlack dark:buttonFillWhite overflow-hidden will-change-transform",
+          "relative bg-primary  p-4 text-light dark:text-dark font-semibold rounded-full text-sm buttonFillBlack dark:buttonFillWhite overflow-hidden will-change-transform",
           addClass && addClass
         )}
         onClick={onClick}
@@ -41,7 +41,7 @@ export const Buttons = ({
     ) : (
       <button
         className={clsx(
-          "relative bg-light dark:text-dark p-4 text-primary font-semibold rounded-full text-sm buttonFillOrange overflow-hidden will-change-transform",
+          "relative bg-light dark:bg-dark dark:text-light p-4 text-primary font-semibold rounded-full text-sm buttonFillOrange overflow-hidden will-change-transform",
           addClass && addClass
         )}
         onClick={onClick}

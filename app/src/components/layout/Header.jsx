@@ -3,36 +3,16 @@ import { SearchBar } from "../SearchBar";
 import { Link } from "react-router-dom";
 import { useGetUserDataQuery } from "../../services/product/userSlice";
 import { internalMemory } from "../../utility/internalMemory";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/auth/authSlice";
-import { Flip, toast } from "react-toastify";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
-  const dispatch = useDispatch();
   const token = internalMemory.get("token");
-  
-  const cart = useSelector(state => state.cart.cart)
-  
-  const { data: userInfo, error } = useGetUserDataQuery(undefined, {
-    skip: token ? false : true,
-  });
 
-  useEffect(() => {
-    if (error && error?.status == 401) {
-      dispatch(logout());
-      toast.error("Sessione scaduta, effettua il login", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        transition: Flip,
-      });
-    }
-  }, [error, userInfo]);
+  const cart = useSelector((state) => state.cart.cart);
+
+  const { data: userInfo } = useGetUserDataQuery(undefined, {
+    skip: !token,
+  });
 
   return (
     <>
@@ -71,16 +51,16 @@ export const Header = () => {
                 </div>
                 <div className="h-full text-light dark:text-dark pr-5">
                   <span>
-                    {
-                      cart && cart.reduce((acc, val) => acc + (val.price * val.cartQnt), 0).toFixed(2)
-                    } €
+                    {cart &&
+                      cart
+                        .reduce((acc, val) => acc + val.price * val.cartQnt, 0)
+                        .toFixed(2)}{" "}
+                    €
                   </span>
                 </div>
               </Link>
               <div className="bg-primary py-3.5 px-5 rounded-r-full text-light dark:text-dark">
-                    {
-                      cart && cart.reduce((acc, val) => acc + val.cartQnt, 0)
-                    }
+                {cart && cart.reduce((acc, val) => acc + val.cartQnt, 0)}
               </div>
             </div>
           </div>
