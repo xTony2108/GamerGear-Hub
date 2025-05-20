@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAddToCart } from "../products/hooks/useAddToCart";
 
-
 export const AddToCartButton = ({ product }) => {
   const { handleAddToCart } = useAddToCart();
 

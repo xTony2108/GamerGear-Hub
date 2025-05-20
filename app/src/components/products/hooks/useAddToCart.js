@@ -9,15 +9,16 @@ export const useAddToCart = () => {
 
     const handleAddToCart = (product) => {
         toast.dismiss();
-        console.log(product.cartQnt);
-
+        
         const price = product.offers.isActive
             ? (product.price * (1 - product.offers.discountPercentage / 100)).toFixed(2)
             : product.price;
 
-        const findProduct = cart.find(item => item.id === product._id);
+        const isAvailable = product.qnt > 0;
 
-        if (!findProduct || (findProduct.cartQnt < findProduct.qnt)) {
+        const findProduct = cart.find(item => item.id === product._id);
+        
+        if (isAvailable && (!findProduct || (findProduct.cartQnt < findProduct.qnt))) {
 
             dispatch(
                 addToCart({
@@ -30,7 +31,10 @@ export const useAddToCart = () => {
                 })
             );
             notifySuccess("Prodotto aggiunto al carrello");
-        } else {
+        } else if(!isAvailable) {
+            notifyError("Il prodotto selezionato non è disponibile");
+        }
+        else {
             notifyError("Hai raggiunto la quantità massima per questo prodotto");
         }
     };

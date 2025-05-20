@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { internalMemory } from "./utility/internalMemory";
 import { syncCart } from "./features/cart/cartSlice";
+import { useSessionGuard } from "./hooks/useSessionGuard";
 
 const Home = lazyLoad("Home", "Home");
 const Login = lazyLoad("Login", "Login");
@@ -21,6 +22,7 @@ const SingleProduct = lazyLoad("SingleProduct", "SingleProduct", "components");
 
 export const App = () => {
   const dispatch = useDispatch();
+  useSessionGuard();
 
   useEffect(() => {
     const handleStorageChange = (event) => {
@@ -32,7 +34,7 @@ export const App = () => {
 
     // Aggiungi il listener
     window.addEventListener("storage", handleStorageChange);
-    
+
     return () => {
       // Rimuovi il listener
       window.removeEventListener("storage", handleStorageChange);

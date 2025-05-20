@@ -14,7 +14,7 @@ import {
   removeQnt,
   showMaxQnt,
 } from "../features/cart/cartSlice";
-import { FormInput } from "../components/shared/FormInput";
+import { FormInput } from "../components/auth/FormInput";
 
 export const Cart = () => {
   const products = useSelector((state) => state.cart.cart);
@@ -25,14 +25,13 @@ export const Cart = () => {
     dispatch(removeQnt({ id: product.id }));
   };
 
-  const showQuantity = (e, product) => {    
+  const showQuantity = (e, product) => {
     dispatch(showMaxQnt({ id: product.id, cartQnt: Number(e.target.value) }));
   };
 
   const addQuantity = (product) => {
     dispatch(addToCart({ id: product.id, cartQnt: 1 }));
   };
-
 
   return (
     <>
@@ -87,13 +86,16 @@ export const Cart = () => {
                 <span className="text-light dark:text-dark text-lg font-semibold pr-2">
                   Totale:
                 </span>
-                <span className="font-semibold text-xl text-primary"> {
-                    products && products.reduce((acc, val) => acc + (val.price * val.cartQnt), 0).toFixed(2)
-                  } €
-                  </span>
+                <span className="font-semibold text-xl text-primary">
+                  {" "}
+                  {products &&
+                    products
+                      .reduce((acc, val) => acc + val.price * val.cartQnt, 0)
+                      .toFixed(2)}{" "}
+                  €
+                </span>
               </div>
               <div className="flex justify-end py-8 pr-4 gap-8">
-                
                 <div className="flex gap-4">
                   <FormInput
                     type="text"

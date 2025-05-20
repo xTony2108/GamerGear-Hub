@@ -18,7 +18,7 @@ export const HeroSection = () => {
 
   return (
     <div className="relative bg-white dark:bg-black">
-      <div className="max-w-screen-2xl m-auto flex min-h-[calc(100svh-172px)] pt-28 px-12">
+      <div className="max-w-screen-2xl m-auto flex py-28 px-12">
         <div className="flex-1 min-w-0">
           <div className="relative mr-6">
             <img
@@ -39,9 +39,9 @@ export const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 min-w-0 relative">
+        <div className="flex-1 min-w-0 relative flex ">
           <ProductsCard productsArray={discountedProducts} isSwiper={true} />
-          <div className="mt-10 swiper-pagination"></div>
+          <div className="mt-10 swiper-pagination !absolute !-bottom-16 !left-2/4 !-translate-x-2/4"></div>
         </div>
       </div>
     </div>
