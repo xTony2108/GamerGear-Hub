@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 div {
-  @apply transition-colors duration-200
+  @apply transition-colors duration-200;
 }
 
 @layer base {
@@ -32,6 +32,14 @@ div {
   }
 
   input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset; /* Sfondo bianco */
+    box-shadow: 0 0 0 1000px white inset;
+    -webkit-text-fill-color: #000; /* Testo nero */
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: black;
+  }
+
+  .dark input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px black inset; /* Cambia 'black' con il colore di sfondo desiderato */
     box-shadow: 0 0 0 1000px black inset; /* Cambia 'white' con il colore di sfondo desiderato */
     -webkit-text-fill-color: #fff; /* Cambia '#000' con il colore del testo desiderato */
@@ -42,20 +50,19 @@ div {
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    background: #BDBDBD;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6E6E6E;
+    background: #bdbdbd;
   }
 
-  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6e6e6e;
+  }
+
   h1,
   h2,
   h3,
@@ -237,7 +244,6 @@ div {
     bottom: -50%;
   }
 
-  
   .buttonFillOrange::after {
     position: absolute;
     content: "";

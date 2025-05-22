@@ -4,15 +4,10 @@ export const useButtonPagination = (page, setPage, totalPages, ref) => {
   const scrollRef = ref;
   const buttonsPerPage = 10;
 
-  let startIndex;
-
-  if (page <= 0) {
-    startIndex = 0;
-  } else if (page <= buttonsPerPage) {
-    startIndex = 0;
-  } else {
-    startIndex = Math.floor((page - 1) / buttonsPerPage) * buttonsPerPage;
-  }
+  let startIndex =
+    page <= 0 || page <= buttonsPerPage
+      ? 0
+      : Math.floor((page - 1) / buttonsPerPage) * buttonsPerPage;
 
   const totalButtons = useMemo(
     () =>

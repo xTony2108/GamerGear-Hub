@@ -84,7 +84,8 @@ export const FormInput = ({
             <FontAwesomeIcon
               icon={clsx("fa-solid fa-eye", showPw && "fa-solid fa-eye-slash")}
               size="lg"
-              style={{ color: "white", margin: "0px 12px", width: "25px" }}
+              style={{ margin: "0px 12px", width: "25px" }}
+              className="text-black dark:text-white"
             />
           </button>
         </div>
