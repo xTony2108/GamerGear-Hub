@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Footer } from "../components/layout/Footer";
 import { Header } from "../components/layout/Header";
 import { Navbar } from "../components/layout/Navbar";
@@ -15,9 +15,12 @@ import {
   showMaxQnt,
 } from "../features/cart/cartSlice";
 import { FormInput } from "../components/auth/FormInput";
+import { getPrice } from "../components/products/functions/getPrice";
+import { useGetTotalPrice } from "../components/products/hooks/useGetTotalPrice";
+import { useGetCartItems } from "../components/products/hooks/useGetCartItems";
 
 export const Cart = () => {
-  const products = useSelector((state) => state.cart.cart);
+  const cartItems = useGetCartItems();
 
   const dispatch = useDispatch();
 
@@ -30,9 +33,10 @@ export const Cart = () => {
   };
 
   const addQuantity = (product) => {
-    dispatch(addToCart({ id: product.id, cartQnt: 1 }));
+    dispatch(
+      addToCart({ id: product.id, cartQnt: 1, qnt: Number(product.qnt) })
+    );
   };
-
   return (
     <>
       <Header />
@@ -41,14 +45,14 @@ export const Cart = () => {
         <div className="min-h-fullWithoutBars max-w-screen-2xl m-auto flex flex-col items-center py-20 px-6">
           <PageHeading page={"Carrello"} />
           <PageLocation pages={["Carrello"]} />
-          {products && products.length > 0 ? (
+          {cartItems && cartItems.length > 0 ? (
             <div className="w-full border border-border rounded-lg bg-lightBg dark:bg-grayBg">
-              {products.map((product) => {
+              {cartItems.map((product) => {
                 return (
-                  <div className="flex flex-col p-4" key={product.id}>
+                  <div className="flex flex-col p-4" key={product._id}>
                     <div className="flex items-center gap-8 py-4">
                       <img
-                        src={product.img}
+                        src={product.frontImage}
                         alt={product.name}
                         className="max-w-56 aspect-square object-contain"
                       />
@@ -59,24 +63,26 @@ export const Cart = () => {
                         {product.name}
                       </Link>
                     </div>
-                    <div className="p-4 text-end text-light dark:text-dark flex items-center justify-end gap-12">
-                      <ProductQuantity
-                        add={() => addQuantity(product)}
-                        remove={() => removeQuantity(product)}
-                        quantity={product.cartQnt}
-                        show={(e) => showQuantity(e, product)}
-                      />
-                      <button
-                        className="flex items-center gap-3 hover:text-primary"
-                        onClick={() =>
-                          dispatch(removeFromCart({ id: product.id }))
-                        }
-                      >
-                        <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-                        Rimuovi
-                      </button>
+                    <div className="p-4 text-end text-light dark:text-dark flex items-center justify-between">
+                      <div className="flex items-center gap-12">
+                        <ProductQuantity
+                          add={() => addQuantity(product)}
+                          remove={() => removeQuantity(product)}
+                          quantity={product.cartQnt}
+                          show={(e) => showQuantity(e, product)}
+                        />
+                        <button
+                          className="flex items-center gap-3 hover:text-primary"
+                          onClick={() =>
+                            dispatch(removeFromCart({ id: product.id }))
+                          }
+                        >
+                          <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+                          Rimuovi
+                        </button>
+                      </div>
                       <span className="text-primary font-semibold text-xl">
-                        {(product.price * product.cartQnt).toFixed(2)} €
+                        {getPrice(product)} €
                       </span>
                     </div>
                   </div>
@@ -87,12 +93,7 @@ export const Cart = () => {
                   Totale:
                 </span>
                 <span className="font-semibold text-xl text-primary">
-                  {" "}
-                  {products &&
-                    products
-                      .reduce((acc, val) => acc + val.price * val.cartQnt, 0)
-                      .toFixed(2)}{" "}
-                  €
+                  {useGetTotalPrice(cartItems)} €
                 </span>
               </div>
               <div className="flex justify-end py-8 pr-4 gap-8">

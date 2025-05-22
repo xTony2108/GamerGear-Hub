@@ -3,12 +3,16 @@ import { SearchBar } from "../SearchBar";
 import { Link } from "react-router-dom";
 import { useGetUserDataQuery } from "../../services/product/userSlice";
 import { internalMemory } from "../../utility/internalMemory";
+import { useGetTotalPrice } from "../products/hooks/useGetTotalPrice";
+import { useGetCartItems } from "../products/hooks/useGetCartItems";
 import { useSelector } from "react-redux";
 
 export const Header = () => {
   const token = internalMemory.get("token");
 
   const cart = useSelector((state) => state.cart.cart);
+
+  const cartItems = useGetCartItems();
 
   const { data: userInfo } = useGetUserDataQuery(undefined, {
     skip: !token,
@@ -50,13 +54,7 @@ export const Header = () => {
                   />
                 </div>
                 <div className="h-full text-light dark:text-dark pr-5">
-                  <span>
-                    {cart &&
-                      cart
-                        .reduce((acc, val) => acc + val.price * val.cartQnt, 0)
-                        .toFixed(2)}{" "}
-                    €
-                  </span>
+                  <span>{useGetTotalPrice(cartItems)}€</span>
                 </div>
               </Link>
               <div className="bg-primary py-3.5 px-5 rounded-r-full text-light dark:text-dark">
