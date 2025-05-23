@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SearchBar } from "../SearchBar";
+import { SearchBar } from "./SearchBar";
 import { Link } from "react-router-dom";
 import { useGetUserDataQuery } from "../../services/product/userSlice";
 import { internalMemory } from "../../utility/internalMemory";
@@ -20,9 +20,9 @@ export const Header = () => {
 
   return (
     <>
-      <header className="bg-white dark:bg-black">
-        <div className="flex items-center justify-between max-w-screen-2xl m-auto py-6 relative z-50 gap-8 px-12">
-          <div className="flex items-center gap-10 flex-grow">
+      <header className="bg-white dark:bg-black relative">
+        <div className="flex items-center justify-between max-w-screen-2xl m-auto py-6 relative gap-8 px-12 z-40">
+          <div className="flex items-center gap-10 flex-grow relative">
             <div className="min-w-fit">
               <p className="text-2xl text-light dark:text-dark w-full font-bold">
                 GamerGear Hub
