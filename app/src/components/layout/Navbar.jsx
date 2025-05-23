@@ -25,22 +25,26 @@ export const Navbar = () => {
 
   const switchTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
-    internalMemory.save("theme", newTheme); 
-    setTheme(newTheme); 
-  }
-  useEffect(() => {    
-    if (memoryTheme === 'dark' || (!memoryTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.body.classList.add('dark');
+    internalMemory.save("theme", newTheme);
+    setTheme(newTheme);
+  };
+  useEffect(() => {
+    if (
+      memoryTheme === "dark" ||
+      (!memoryTheme &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.body.classList.add("dark");
       setTheme("dark");
     } else {
-      document.body.classList.remove('dark');
+      document.body.classList.remove("dark");
       setTheme("light");
     }
 
     const handleStorageChange = (event) => {
       if (event.key === "theme") {
         const updatedTheme = JSON.parse(event.newValue);
-        
+
         if (updatedTheme == "dark") {
           document.body.classList.add("dark");
           setTheme("dark");
@@ -51,18 +55,18 @@ export const Navbar = () => {
       }
     };
 
-  window.addEventListener("storage", handleStorageChange);
-  
-  return () => {
-    window.removeEventListener("storage", handleStorageChange);
-  };
-  }, [theme])
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [theme]);
 
   return (
     <>
       <nav
         className={clsx(
-          "bg-grayBg z-50 w-full overflow-hidden animate__animated sticky dark:border-b dark:border-dark",
+          "bg-grayBg z-30 w-full overflow-hidden animate__animated sticky dark:border-b dark:border-dark",
           isSticky && "animate__fadeInDown -top-1"
         )}
       >
@@ -76,17 +80,30 @@ export const Navbar = () => {
             </Link>
           </div>
           <label className="relative w-14 h-6 bg-white dark:bg-black inline-block rounded-full z-10 cursor-pointer select-none">
-              <input type="checkbox" className="peer w-0 invisible" onChange={switchTheme} checked={theme === "light"}/>
-              <span className={clsx("absolute rounded-[50%] z-20 w-5 h-5 peer-checked:left-[calc(100%-22px)] transition-all duration-200 left-[2px] top-[2px] bottom-[2px] right-[2px]",
-              theme == "light" && "left-[calc(100%-22px)")
-              }>
-              {
-              theme == "dark" ?
-              <FontAwesomeIcon icon="fa-regular fa-moon" className="text-black z-20 w-5 h-5 dark:text-white" />
-              :
-              <FontAwesomeIcon icon="fa-regular fa-sun" className="text-black z-20 w-5 h-5 dark:text-white" />
-              }
-              </span>
+            <input
+              type="checkbox"
+              className="peer w-0 invisible"
+              onChange={switchTheme}
+              checked={theme === "light"}
+            />
+            <span
+              className={clsx(
+                "absolute rounded-[50%] z-20 w-5 h-5 peer-checked:left-[calc(100%-22px)] transition-all duration-200 left-[2px] top-[2px] bottom-[2px] right-[2px]",
+                theme == "light" && "left-[calc(100%-22px)"
+              )}
+            >
+              {theme == "dark" ? (
+                <FontAwesomeIcon
+                  icon="fa-regular fa-moon"
+                  className="text-black z-20 w-5 h-5 dark:text-white"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon="fa-regular fa-sun"
+                  className="text-black z-20 w-5 h-5 dark:text-white"
+                />
+              )}
+            </span>
           </label>
         </div>
       </nav>

@@ -11,6 +11,7 @@ export const PageLocation = ({ pages }) => {
         <FontAwesomeIcon
           icon="fa-solid fa-home"
           style={{ marginRight: "8px" }}
+          className="text-light dark:text-dark"
         />
         Home
       </Link>
@@ -19,6 +20,7 @@ export const PageLocation = ({ pages }) => {
           <FontAwesomeIcon
             icon="fa-solid fa-caret-right"
             style={{ margin: "0 8px" }}
+            className="text-light dark:text-dark"
           />
           {pages[0]}
         </span>
@@ -28,7 +30,8 @@ export const PageLocation = ({ pages }) => {
             <div className="flex items-center" key={page + i}>
               <FontAwesomeIcon
                 icon="fa-solid fa-caret-right"
-                style={{ margin: "0 8px", color: "white" }}
+                style={{ margin: "0 8px" }}
+                className="text-light dark:text-dark"
               />
               <Link
                 to=".."
@@ -45,6 +48,7 @@ export const PageLocation = ({ pages }) => {
               <FontAwesomeIcon
                 icon="fa-solid fa-caret-right"
                 style={{ margin: "0 8px" }}
+                className="text-light dark:text-dark"
               />
               {page}
             </span>
