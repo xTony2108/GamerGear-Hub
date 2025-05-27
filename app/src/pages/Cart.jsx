@@ -18,9 +18,25 @@ import { FormInput } from "../components/auth/FormInput";
 import { getPrice } from "../components/products/functions/getPrice";
 import { useGetTotalPrice } from "../components/products/hooks/useGetTotalPrice";
 import { useGetCartItems } from "../components/products/hooks/useGetCartItems";
+import { useEffect, useState } from "react";
+import { useAxios } from "../hooks/useAxios";
+import { toast } from "react-toastify";
+import { notifyError, notifySuccess } from "../utility/toastifyNotification";
 
 export const Cart = () => {
   const cartItems = useGetCartItems();
+
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountResponse, setDiscountResponse] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const { data, update, error } = useAxios("api/discounts", 
+    {
+      method: "POST", 
+      headers: { "Content-Type": "application/json" },
+      data: {discountCode}
+    });
+  
 
   const dispatch = useDispatch();
 
@@ -37,6 +53,34 @@ export const Cart = () => {
       addToCart({ id: product.id, cartQnt: 1, qnt: Number(product.qnt) })
     );
   };
+
+  const handleDiscountSubmit = async () => {
+    toast.dismiss();
+    await update();
+  }
+
+  const handleRemoveDiscount = async () => {
+    toast.dismiss();
+    notifySuccess("Codice sconto rimosso");
+    setDiscountResponse(null);
+    setDiscountCode("");
+  }
+
+  useEffect(() => {      
+      if (data) {        
+        notifySuccess(data?.message);
+        setDiscountResponse(data);
+      } else {
+        notifyError(error?.response?.data?.message);
+      }
+
+  }, [data, error]);
+
+  useEffect(() => {      
+    setTotalPrice(useGetTotalPrice(cartItems, discountResponse))
+
+  }, [cartItems, discountResponse]);
+
   return (
     <>
       <Header />
@@ -88,25 +132,46 @@ export const Cart = () => {
                   </div>
                 );
               })}
+              
               <div className="flex justify-end py-8 pr-8 border-t border-border">
                 <span className="text-light dark:text-dark text-lg font-semibold pr-2">
                   Totale:
                 </span>
+                
                 <span className="font-semibold text-xl text-primary">
-                  {useGetTotalPrice(cartItems)} €
+                  {totalPrice} €
                 </span>
               </div>
               <div className="flex justify-end py-8 pr-4 gap-8">
-                <div className="flex gap-4">
+                <div className="flex items-center gap-4">
+                  {
+                    discountResponse && 
+                    <>
+                      <span className="text-light dark:text-dark text-lg font-semibold pr-2">
+                        Codice sconto:
+                      </span>
+                      <span className="font-semibold text-xl text-discount mr-4">
+                        - {discountResponse.discount}%
+                      </span>
+                      <Buttons type="button" text="Rimuovi codice" onClick={handleRemoveDiscount} />
+                    </>
+                  }
+                  {!discountResponse &&
+                  <>
                   <FormInput
                     type="text"
                     name="discount"
                     placeholder="Codice sconto"
                     autoComplete="discount"
                     addClass="text-sm w-56"
+                    value={discountCode}
+                    handlerFunc={(e) => setDiscountCode(e.target.value)}
                   />
-                  <Buttons type="button" text="Applica codice" />
+                  <Buttons type="button" text="Applica codice" onClick={handleDiscountSubmit} />
+                  </>
+                  }
                 </div>
+                
                 <Buttons
                   type="button"
                   text="Procedi all'acquisto"

@@ -21,7 +21,7 @@ export const Header = () => {
   return (
     <>
       <header className="bg-white dark:bg-black relative">
-        <div className="flex items-center justify-between max-w-screen-2xl m-auto py-6 relative gap-8 px-12 z-40">
+        <div className="flex items-center justify-between max-w-screen-2xl m-auto py-6 relative gap-8 px-12 z-50">
           <div className="flex items-center gap-10 flex-grow relative">
             <div className="min-w-fit">
               <p className="text-2xl text-light dark:text-dark w-full font-bold">

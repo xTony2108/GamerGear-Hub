@@ -9,7 +9,7 @@ export const useSessionGuard = () => {
   const dispatch = useDispatch();
   const sessionHandled = useRef(false);
 
-  const token = internalMemory.get("token"); // o internalMemory.get
+  const token = internalMemory.get("token");
 
   const { error } = useGetUserDataQuery(undefined, {
     skip: !token,

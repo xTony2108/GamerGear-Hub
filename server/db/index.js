@@ -14,6 +14,7 @@ const connect = async () => {
 const models = {
   User: require("./models/User"),
   Product: require("./models/Product"),
+  Discount: require("./models/Discount")
 };
 
 module.exports = { ...models, connect };

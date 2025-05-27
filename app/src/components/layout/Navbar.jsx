@@ -66,7 +66,7 @@ export const Navbar = () => {
     <>
       <nav
         className={clsx(
-          "bg-grayBg z-30 w-full overflow-hidden animate__animated sticky dark:border-b dark:border-dark",
+          "bg-grayBg z-40 w-full overflow-hidden animate__animated sticky dark:border-b dark:border-dark",
           isSticky && "animate__fadeInDown -top-1"
         )}
       >

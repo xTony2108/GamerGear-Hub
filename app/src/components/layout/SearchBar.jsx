@@ -64,7 +64,7 @@ export const SearchBar = () => {
   return (
     <>
       <div
-        className="flex items-center h-14 rounded-full border border-border w-3/5"
+        className="flex items-center h-14 rounded-full border border-border w-3/5 relative z-50"
         ref={inputRef}
       >
         <FontAwesomeIcon

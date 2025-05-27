@@ -3,7 +3,7 @@ import { lazyLoad } from "./utility/lazyLoad";
 import { useGetAllProductsQuery } from "./services/product/productSlice";
 import { DisplayError } from "./components/layout/DisplayError";
 import { Loader } from "./components/layout/Loader";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { ScrollTop } from "./components/layout/ScrollTop";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -32,11 +32,9 @@ export const App = () => {
       }
     };
 
-    // Aggiungi il listener
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      // Rimuovi il listener
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
@@ -50,6 +48,7 @@ export const App = () => {
   const ProtectedRoute = ({ children }) => {
     const token = useSelector((state) => state.auth.token);
     const location = useLocation();
+    
     if (token) {
       return <Navigate to={location.state?.from?.pathname || "/"} replace />;
     } else {
@@ -87,7 +86,7 @@ export const App = () => {
             path="/login"
             element={
               <ProtectedRoute>
-                <Login />
+                  <Login />
               </ProtectedRoute>
             }
           />
@@ -95,7 +94,7 @@ export const App = () => {
             path="/register"
             element={
               <ProtectedRoute>
-                <Register />
+                  <Register />
               </ProtectedRoute>
             }
           />
